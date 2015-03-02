@@ -37,10 +37,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    linkList = "<li><a href='/article?url=https://raw.githubusercontent.com/alex/what-happens-when/master/README.rst' >What happens when you type google.com into your browser's address box and press enter?</a></li>\n"
-    
+    #linkList = "<li><a href='/article?url=https://raw.githubusercontent.com/alex/what-happens-when/master/README.rst' >What happens when you type google.com into your browser's address box and press enter?</a></li>\n"
+    linkList = ''
     null = 'null'
-    repoList = json.loads(urllib2.urlopen('https://api.github.com/repos/nickpetty/What-Happens-When/contents').read())
+    repoList = json.loads(urllib2.urlopen('https://api.github.com/repos/nickpetty/What-Happens-When/contents/articles').read())
 
     i = 0
     while i < len(repoList):
