@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, redirect, url_for
-import gfm
 import urllib2
 from docutils.core import publish_string
 import ast
 import json
-
 import misaka
 from misaka import HtmlRenderer, SmartyPants
 from pygments import highlight, lexers, formatters
@@ -30,24 +27,20 @@ class HighlighterRenderer(HtmlRenderer, SmartyPants):
     def table(self, header, body):
         return '<table class="table">\n'+header+'\n'+body+'\n</table>'
 
-# And use the renderer
 renderer = HighlighterRenderer(flags=misaka.HTML_ESCAPE | misaka.HTML_HARD_WRAP | misaka.HTML_SAFELINK)
 md = misaka.Markdown(renderer,
     extensions=misaka.EXT_FENCED_CODE | misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_AUTOLINK | misaka.EXT_SPACE_HEADERS | misaka.EXT_STRIKETHROUGH | misaka.EXT_SUPERSCRIPT)
 
 
-#html = md.render(urllib2.urlopen('https://raw.githubusercontent.com/github/linguist/master/README.md').read().decode('utf8'))
-#html = publish_string(urllib2.urlopen('https://raw.githubusercontent.com/alex/what-happens-when/master/README.rst').read(), writer_name='html')
 app = Flask(__name__)
-
 
 
 @app.route('/')
 def index():
     linkList = "<li><a href='/article?url=https://raw.githubusercontent.com/alex/what-happens-when/master/README.rst' >What happens when you type google.com into your browser's address box and press enter?</a></li>\n"
-    #linkList = "<li><a href='/article/https://raw.githubusercontent.com/alex/what-happens-when/master/README.rst'>Dis</a></li>\n"
+    
     null = 'null'
-    repoList = json.loads(urllib2.urlopen('https://api.github.com/repos/nickpetty/dtvcontroller-gem/contents').read())
+    repoList = json.loads(urllib2.urlopen('https://api.github.com/repos/nickpetty/What-Happens-When/contents').read())
 
     i = 0
     while i < len(repoList):
