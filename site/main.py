@@ -40,18 +40,21 @@ def index():
     #linkList = "<li><a href='/article?url=https://raw.githubusercontent.com/alex/what-happens-when/master/README.rst' >What happens when you type google.com into your browser's address box and press enter?</a></li>\n"
     linkList = ''
     null = 'null'
-    repoList = json.loads(urllib2.urlopen('https://api.github.com/repos/nickpetty/What-Happens-When/contents/articles').read())
+    #html = md.render(urllib2.urlopen('https://raw.githubusercontent.com/nickpetty/What-Happens-When/master/index.md').read())
+    # repoList = json.loads(urllib2.urlopen('https://api.github.com/repos/nickpetty/What-Happens-When/contents/').read())
+    req = urllib2.Request('https://raw.githubusercontent.com/nickpetty/What-Happens-When/master/index.md', headers={'Accept': 'application/vnd.github.v3.html+json'})
+    html = urllib2.urlopen(req).read()
 
-    i = 0
-    while i < len(repoList):
-        if repoList[i]['download_url'] != 'null':
-            url = repoList[i]['download_url']
-            name = repoList[i]['name']
-            li = '<li><a href="/article?url=%s">%s</a></li>\n' % (url, name)
-            linkList += li
-            i+=1
+    # i = 0
+    # while i < len(repoList):
+    #     if repoList[i]['download_url'] != 'null':
+    #         url = repoList[i]['download_url']
+    #         name = repoList[i]['name']
+    #         li = '<li><a href="/article?url=%s">%s</a></li>\n' % (url, name)
+    #         linkList += li
+    #         i+=1
 
-    return render_template('home.html', links=linkList)
+    return render_template('home.html', html=html)
 
 
 @app.route('/article', methods=['GET'])
